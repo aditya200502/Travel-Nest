@@ -9,7 +9,7 @@
     <h2>All Places</h2>
     <ul>
       <% for(let place of Places){ %>
-      <li><%=place.title%></li>
+      <li><a href="/placelist/<%=place._id%>"><%=place.title%></a></li>
       <% } %>
     </ul>
   </body>
