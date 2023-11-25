@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-
+const PlaceList = require("./models/PlaceList.js")
 
 //Database creation :-
 
@@ -24,4 +24,19 @@ app.listen(8080, () => {
 
 app.get("/", (req, res) => {
     res.send("Hi this is first response");
+})
+
+app.get("/testListing", async (req, res) => {
+    //New document creation
+    let SamplePlace = new PlaceList({
+        title: "My New Home",
+        description: "By the Sands",
+        price: 120000,
+        location: "Red Sea,Jordan",
+        country: "India",
+    })
+
+    await SamplePlace.save();
+    console.log("Sample was tested");
+    res.send("Sample testing is done");
 })
