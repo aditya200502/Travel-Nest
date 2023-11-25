@@ -64,3 +64,5 @@ app.get("/placelist/:id",async (req,res) => {
     const place = await PlaceList.findById(id);
     res.render("places/show.ejs",{place})
 })
+
+//New Route :-
