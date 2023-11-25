@@ -66,3 +66,6 @@ app.get("/placelist/:id",async (req,res) => {
 })
 
 //New Route :-
+app.get("/placelist/new",(req,res) => {
+    
+})
