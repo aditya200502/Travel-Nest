@@ -3,12 +3,14 @@ const app = express();
 const mongoose = require("mongoose");
 const PlaceList = require("./models/PlaceList.js")
 const path = require("path")
+const methodOverride = require("method-override")
 
 
 //View engine set :-
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"));
-app.use(express.urlencoded({ extended: true }))
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride("_method"));
 
 //Database creation :-
 
@@ -83,4 +85,19 @@ app.post("/placelist", async (req, res) => {
     
     //console.log(placelist);
     res.redirect("/placelist");
+})
+
+//Edit Route :-
+app.get("/placelist/:id/edit",async(req,res) => {
+
+    let { id } = req.params;
+    const place = await PlaceList.findById(id);
+    res.render("places/edit.ejs",{place});
+})
+
+//Update and Save :-
+app.put("/placelist/:id",async(req,res)=>{
+    let { id } = req.params;
+    await PlaceList.findByIdAndUpdate(id,{...req.body.placelist});
+    res.redirect(`/placelist/${id}`);
 })
