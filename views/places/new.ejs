@@ -1,26 +1,78 @@
 <% layout("/layouts/boilerplate") %>
 <body>
-  <h3>Create New Placelist</h3>
-  <form method="POST" action="/placelist">
-    <input name="placelist[title]" placeholder="Enter title" type="text" />
-    <br /><br />
-    <textarea
-      name="placelist[description]"
-      placeholder="Enter description"
-    ></textarea>
-    <br />
-    <input name="placelist[image]" placeholder="Enter image link" type="text" />
-    <br /><br />
-    <input name="placelist[price]" placeholder="Enter price" type="number" />
-    <br /><br />
-    <input name="placelist[country]" placeholder="Enter country" type="text" />
-    <br /><br />
-    <input
-      name="placelist[location]"
-      placeholder="Enter location"
-      type="text"
-    />
-    <br /><br />
-    <button>Save</button>
-  </form>
+  <div class="row">
+    <div class="cols-8 offset-2">
+      <br /><br />
+      <h3>Create New Placelist</h3>
+      <form method="POST" action="/placelist">
+        <div>
+          <label for="title" class="form-label">Title</label>
+          <input
+            name="placelist[title]"
+            placeholder="Enter title"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <br />
+        <div>
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            name="placelist[description]"
+            class="form-control"
+          ></textarea>
+        </div>
+
+        <br />
+        <div>
+          <label for="image" class="form-label">Image URL Link</label>
+          <input
+            name="placelist[image]"
+            placeholder="Enter image link"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <br />
+        <div class="row">
+          <div class="col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input
+              name="placelist[price]"
+              placeholder="Enter price"
+              type="number"
+              class="form-control"
+            />
+          </div>
+
+          <br />
+          <div class="col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input
+              name="placelist[country]"
+              placeholder="Enter country"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <br />
+        <div>
+          <label for="location" class="form-label">Location</label>
+          <input
+            name="placelist[location]"
+            placeholder="Enter location"
+            type="text"
+            class="form-control"
+          />
+        </div>
+        <br />
+        <button class="btn btn-dark add-btn">Save</button>
+        <br /><br />
+      </form>
+    </div>
+  </div>
 </body>
