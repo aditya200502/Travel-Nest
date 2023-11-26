@@ -1,9 +1,9 @@
 <% layout("/layouts/boilerplate") %>
   <body>
     <h3>All Places</h3>
-    <form method="GET" action="/placelist/new">
+    <!-- <form method="GET" action="/placelist/new">
       <button>Create New PlaceList</button>
-    </form>
+    </form> -->
     <ul>
       <% for(let place of Places){ %>
       <li><a href="/placelist/<%=place._id%>"><%=place.title%></a></li>
