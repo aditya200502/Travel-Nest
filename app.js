@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const PlaceList = require("./models/PlaceList.js")
 const path = require("path")
 const methodOverride = require("method-override")
+const ejsMate = require("ejs-mate")
 
 
 //View engine set :-
