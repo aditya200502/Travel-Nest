@@ -16,5 +16,9 @@
     </ul>
     <br>
     <a href="/placelist/<%=place._id%>/edit">Edit Placelist</a>
+    <br><br>
+    <form method="post" action="/placelist/<%=place._id%>?_method=DELETE">
+        <button>Delete this Placelist</button>
+    </form>
 </body>
 </html>

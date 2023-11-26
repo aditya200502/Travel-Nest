@@ -95,9 +95,17 @@ app.get("/placelist/:id/edit",async(req,res) => {
     res.render("places/edit.ejs",{place});
 })
 
-//Update and Save :-
+//Update and Save Route:-
 app.put("/placelist/:id",async(req,res)=>{
     let { id } = req.params;
     await PlaceList.findByIdAndUpdate(id,{...req.body.placelist});
     res.redirect(`/placelist/${id}`);
+})
+
+//Delete Route :-
+app.delete("/placelist/:id", async(req,res) =>{
+    let { id } = req.params;
+    const deletedPlace = await PlaceList.findByIdAndDelete(id);
+    console.log(deletedPlace);
+    res.redirect("/placelist");
 })
