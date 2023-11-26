@@ -1,24 +1,31 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelNest</title>
-</head>
+<% layout("/layouts/boilerplate")%>
 <body>
-    <h3>LISTING DETAILS</h3>
-    <ul>
-        <li><%=place.title%></li>
-        <li><%=place.description%></li>
-        <li>&#8377; <%=place.price.toLocaleString("en-IN")%></li>
-        <li><%=place.location%></li>
-        <li><%=place.country%></li>
-    </ul>
-    <br>
-    <a href="/placelist/<%=place._id%>/edit">Edit Placelist</a>
-    <br><br>
-    <form method="post" action="/placelist/<%=place._id%>?_method=DELETE">
-        <button>Delete this Placelist</button>
-    </form>
+  <div class="row mt-3">
+    <div class="col-8 offset-2">
+      <h3>LISTING DETAILS :</h3>
+    </div>
+    <div class="card col-6 offset-2">
+      <img src="<%=place.image%>" class="card-img-top show-img" alt="..." />
+      <div class="card-img-overlay"></div>
+      <div class="card-body">
+        <p class="card-text">
+          <b><%=place.title%></b> <br />
+          <%=place.description%> <br />
+          &#8377; <%=place.price%> /night <br />
+          <%=place.country%> <br />
+          <%=place.location%> <br />
+        </p>
+      </div>
+    </div>
+
+    <br />
+
+    <div class="btns">
+      <a class="btn add-btn col-1 offset-2" href="/placelist/<%=place._id%>/edit">Edit</a>
+
+      <form method="post" action="/placelist/<%=place._id%>?_method=DELETE">
+        <button class="btn add-btn offset-4">Delete</button>
+      </form>
+    </div>
+  </div>
 </body>
-</html>

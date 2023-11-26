@@ -1,26 +1,74 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TravelNest</title>
-</head>
+<% layout("/layouts/boilerplate") %>
 <body>
-    <h3>Edit Placelist </h3>
-    <form method="post" action="/placelist/<%=place._id%>?_method=put">
-        <input name="placelist[title]" value="<%=place.title%>" type="text">
-        <br><br>
-        <textarea name="placelist[description]"><%=place.description%></textarea>
-        <br>
-        <input name="placelist[image]" value="<%=place.image%>" type="text">
-        <br><br>
-        <input name="placelist[price]" value="<%=place.price%>" type="number">
-        <br><br>
-        <input name="placelist[country]" value="<%=place.country%>" type="text">
-        <br><br>
-        <input name="placelist[location]" value="<%=place.location%>" type="text">
-        <br><br>
-        <button>Edit</button>
-    </form>
+  <br /><br />
+  <div class="row">
+    <div class="col-8 offset-2">
+
+      <h3>Edit Placelist</h3>
+      <form method="post" action="/placelist/<%=place._id%>?_method=put">
+        <div class="mb-3">
+          <label for="title" class="form-label">Title</label>
+          <input
+            name="placelist[title]"
+            value="<%=place.title%>"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea name="placelist[description]" class="form-control">
+      <%=place.description%></textarea
+          >
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Image URL Link</label>
+          <input
+            name="placelist[image]"
+            value="<%=place.image%>"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <div class="row">
+          <div class="col-md-4">
+            <label for="price" class="form-label">Price</label>
+            <input
+              name="placelist[price]"
+              value="<%=place.price%>"
+              type="number"
+              class="form-control"
+            />
+          </div>
+
+          <div class="col-md-8">
+            <label for="country" class="form-label">Country</label>
+            <input
+              name="placelist[country]"
+              value="<%=place.country%>"
+              type="text"
+              class="form-control"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input
+            name="placelist[location]"
+            value="<%=place.location%>"
+            type="text"
+            class="form-control"
+          />
+        </div>
+
+        <button class="btn btn-dark add-btn">Edit</button>
+        <br /><br />
+      </form>
+      
+    </div>
+  </div>
 </body>
-</html>

@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const PlaceList = require("./models/PlaceList.js")
 const path = require("path")
 const methodOverride = require("method-override")
+const ejsMate = require("ejs-mate")
 
 
 //View engine set :-
@@ -11,6 +12,12 @@ app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
+app.use(express.static(path.join(__dirname, "public")))
+
+//Major error fixed :-
+app.use('/placelist/:id',express.static(path.join(__dirname, "public")))
+app.engine("ejs",ejsMate);
+
 
 //Database creation :-
 
@@ -64,6 +71,16 @@ app.get("/placelist", async (req, res) => {
 app.get("/placelist/new", (req, res) => {
     res.render("places/new.ejs");
 })
+//Create Route :-
+app.post("/placelist", async (req, res) => {
+
+    //let{title,description,image,price,country,location} = req.body;
+    let placelist = req.body.placelist;
+
+    const newPlacelist = new PlaceList(placelist);
+    await newPlacelist.save();
+    res.redirect("/placelist");
+})
 
 //Show route :-
 app.get("/placelist/:id", async (req, res) => {
@@ -74,18 +91,6 @@ app.get("/placelist/:id", async (req, res) => {
     res.render("places/show.ejs", { place })
 })
 
-//Create Route :-
-app.post("/placelist", async (req, res) => {
-
-    //let{title,description,image,price,country,location} = req.body;
-    let placelist = req.body;
-
-    const newPlacelist = new PlaceList(placelist);
-    await newPlacelist.save();
-    
-    //console.log(placelist);
-    res.redirect("/placelist");
-})
 
 //Edit Route :-
 app.get("/placelist/:id/edit",async(req,res) => {
