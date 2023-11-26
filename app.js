@@ -6,9 +6,9 @@ const path = require("path")
 
 
 //View engine set :-
-app.set("view engine","ejs")
-app.set("views",path.join(__dirname,"views"));
-app.use(express.urlencoded({extended:true}))
+app.set("view engine", "ejs")
+app.set("views", path.join(__dirname, "views"));
+app.use(express.urlencoded({ extended: true }))
 
 //Database creation :-
 
@@ -51,16 +51,36 @@ app.get("/", (req, res) => {
 // })
 
 //Index route :-
-app.get("/placelist",async (req,res) => {
+app.get("/placelist", async (req, res) => {
     const Places = await PlaceList.find({})
-    res.render("places/index.ejs",{Places})
+    res.render("places/index.ejs", { Places })
 });
 
-//Show route :-
-app.get("/placelist/:id",async (req,res) => {
+//Error was coming as new was also considered as an id
 
-    let {id} = req.params;
+//New Route :-
+app.get("/placelist/new", (req, res) => {
+    res.render("places/new.ejs");
+})
+
+//Show route :-
+app.get("/placelist/:id", async (req, res) => {
+
+    let { id } = req.params;
 
     const place = await PlaceList.findById(id);
-    res.render("places/show.ejs",{place})
+    res.render("places/show.ejs", { place })
+})
+
+//Create Route :-
+app.post("/placelist", async (req, res) => {
+
+    //let{title,description,image,price,country,location} = req.body;
+    let placelist = req.body;
+
+    const newPlacelist = new PlaceList(placelist);
+    await newPlacelist.save();
+    
+    //console.log(placelist);
+    res.redirect("/placelist");
 })
