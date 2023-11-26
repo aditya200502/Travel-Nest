@@ -71,6 +71,16 @@ app.get("/placelist", async (req, res) => {
 app.get("/placelist/new", (req, res) => {
     res.render("places/new.ejs");
 })
+//Create Route :-
+app.post("/placelist", async (req, res) => {
+
+    //let{title,description,image,price,country,location} = req.body;
+    let placelist = req.body.placelist;
+
+    const newPlacelist = new PlaceList(placelist);
+    await newPlacelist.save();
+    res.redirect("/placelist");
+})
 
 //Show route :-
 app.get("/placelist/:id", async (req, res) => {
@@ -81,18 +91,6 @@ app.get("/placelist/:id", async (req, res) => {
     res.render("places/show.ejs", { place })
 })
 
-//Create Route :-
-app.post("/placelist", async (req, res) => {
-
-    //let{title,description,image,price,country,location} = req.body;
-    let placelist = req.body;
-
-    const newPlacelist = new PlaceList(placelist);
-    await newPlacelist.save();
-    
-    //console.log(placelist);
-    res.redirect("/placelist");
-})
 
 //Edit Route :-
 app.get("/placelist/:id/edit",async(req,res) => {

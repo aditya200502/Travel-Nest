@@ -98,3 +98,12 @@ body{
     background-color: #fe424d !important;
     border: none !important;
 }
+
+/* Show Route is styled */
+.show-img{
+    height: 30vh;
+}
+
+.btns{
+    display: flex;
+}
