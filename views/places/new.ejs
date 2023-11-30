@@ -4,7 +4,7 @@
     <div class="cols-8 offset-2">
       <br /><br />
       <h3>Create New Placelist</h3>
-      <form method="POST" action="/placelist">
+      <form method="POST" action="/placelist" novalidate class="needs-validation">
         <div>
           <label for="title" class="form-label">Title</label>
           <input
@@ -12,6 +12,7 @@
             placeholder="Enter title"
             type="text"
             class="form-control"
+            required
           />
         </div>
 
@@ -21,6 +22,7 @@
           <textarea
             name="placelist[description]"
             class="form-control"
+            required
           ></textarea>
         </div>
 
@@ -44,6 +46,7 @@
               placeholder="Enter price"
               type="number"
               class="form-control"
+              required
             />
           </div>
 
@@ -55,6 +58,7 @@
               placeholder="Enter country"
               type="text"
               class="form-control"
+              required
             />
           </div>
         </div>
@@ -67,6 +71,7 @@
             placeholder="Enter location"
             type="text"
             class="form-control"
+            required
           />
         </div>
         <br />
