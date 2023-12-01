@@ -72,14 +72,18 @@ app.get("/placelist/new", (req, res) => {
     res.render("places/new.ejs");
 })
 //Create Route :-
-app.post("/placelist", async (req, res) => {
+app.post("/placelist", async (err,req, res) => {
 
-    //let{title,description,image,price,country,location} = req.body;
-    let placelist = req.body.placelist;
-
-    const newPlacelist = new PlaceList(placelist);
-    await newPlacelist.save();
-    res.redirect("/placelist");
+    try{
+        //let{title,description,image,price,country,location} = req.body;
+        let placelist = req.body.placelist;
+    
+        const newPlacelist = new PlaceList(placelist);
+        await newPlacelist.save();
+        res.redirect("/placelist");
+    }catch(err){
+        next(err)
+    }
 })
 
 //Show route :-
@@ -114,3 +118,10 @@ app.delete("/placelist/:id", async(req,res) =>{
     console.log(deletedPlace);
     res.redirect("/placelist");
 })
+
+// Error handling middleware is being defined :-
+// It is made firstly for new route :-
+
+app.use((err,req,res,next) => {
+    res.send("Something went wrong")
+}) 
