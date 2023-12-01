@@ -5,7 +5,7 @@ const PlaceList = require("./models/PlaceList.js")
 const path = require("path")
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
-
+const wrapAsync = require("./utils/wrapAsync.js");
 
 //View engine set :-
 app.set("view engine", "ejs")
@@ -15,8 +15,8 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")))
 
 //Major error fixed :-
-app.use('/placelist/:id',express.static(path.join(__dirname, "public")))
-app.engine("ejs",ejsMate);
+app.use('/placelist/:id', express.static(path.join(__dirname, "public")))
+app.engine("ejs", ejsMate);
 
 
 //Database creation :-
@@ -72,19 +72,17 @@ app.get("/placelist/new", (req, res) => {
     res.render("places/new.ejs");
 })
 //Create Route :-
-app.post("/placelist", async (err,req, res) => {
+app.post("/placelist", wrapAsync(async (req, res, next) => {
 
-    try{
-        //let{title,description,image,price,country,location} = req.body;
-        let placelist = req.body.placelist;
-    
-        const newPlacelist = new PlaceList(placelist);
-        await newPlacelist.save();
-        res.redirect("/placelist");
-    }catch(err){
-        next(err)
-    }
-})
+    //let{title,description,image,price,country,location} = req.body;
+    let placelist = req.body.placelist;
+
+    const newPlacelist = new PlaceList(placelist);
+    await newPlacelist.save();
+    res.redirect("/placelist");
+
+
+}))
 
 //Show route :-
 app.get("/placelist/:id", async (req, res) => {
@@ -97,22 +95,22 @@ app.get("/placelist/:id", async (req, res) => {
 
 
 //Edit Route :-
-app.get("/placelist/:id/edit",async(req,res) => {
+app.get("/placelist/:id/edit", async (req, res) => {
 
     let { id } = req.params;
     const place = await PlaceList.findById(id);
-    res.render("places/edit.ejs",{place});
+    res.render("places/edit.ejs", { place });
 })
 
 //Update and Save Route:-
-app.put("/placelist/:id",async(req,res)=>{
+app.put("/placelist/:id", async (req, res) => {
     let { id } = req.params;
-    await PlaceList.findByIdAndUpdate(id,{...req.body.placelist});
+    await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
     res.redirect(`/placelist/${id}`);
 })
 
 //Delete Route :-
-app.delete("/placelist/:id", async(req,res) =>{
+app.delete("/placelist/:id", async (req, res) => {
     let { id } = req.params;
     const deletedPlace = await PlaceList.findByIdAndDelete(id);
     console.log(deletedPlace);
@@ -122,6 +120,6 @@ app.delete("/placelist/:id", async(req,res) =>{
 // Error handling middleware is being defined :-
 // It is made firstly for new route :-
 
-app.use((err,req,res,next) => {
+app.use((err, req, res, next) => {
     res.send("Something went wrong")
 }) 
