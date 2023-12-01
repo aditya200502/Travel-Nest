@@ -5,7 +5,7 @@
     <div class="col-8 offset-2">
 
       <h3>Edit Placelist</h3>
-      <form method="post" action="/placelist/<%=place._id%>?_method=put">
+      <form method="post" action="/placelist/<%=place._id%>?_method=put" novalidate class="needs-validation">
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input
@@ -13,14 +13,17 @@
             value="<%=place.title%>"
             type="text"
             class="form-control"
+            required
           />
+          <div class="valid-feedback">Title Looks good!</div>
         </div>
 
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
-          <textarea name="placelist[description]" class="form-control">
+          <textarea name="placelist[description]" class="form-control" required>
       <%=place.description%></textarea
           >
+          <div class="invalid-feedback">Please enter a short description!</div>
         </div>
 
         <div class="mb-3">
@@ -30,7 +33,9 @@
             value="<%=place.image%>"
             type="text"
             class="form-control"
+            required
           />
+          <div class="invalid-feedback">Please enter URL Link!</div>
         </div>
 
         <div class="row">
@@ -41,7 +46,9 @@
               value="<%=place.price%>"
               type="number"
               class="form-control"
+              required
             />
+            
           </div>
 
           <div class="col-md-8">
@@ -51,7 +58,9 @@
               value="<%=place.country%>"
               type="text"
               class="form-control"
+              required
             />
+            <div class="invalid-feedback">Country name should be valid!</div>
           </div>
         </div>
 
@@ -62,7 +71,9 @@
             value="<%=place.location%>"
             type="text"
             class="form-control"
+            required
           />
+          <div class="invalid-feedback">Location should be valid!</div>
         </div>
 
         <button class="btn btn-dark add-btn">Edit</button>
@@ -71,4 +82,5 @@
       
     </div>
   </div>
+  <script src="/js/script.js"></script>
 </body>
