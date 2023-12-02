@@ -6,6 +6,7 @@ const path = require("path")
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressError.js");
 
 //View engine set :-
 app.set("view engine", "ejs")
@@ -60,10 +61,11 @@ app.get("/", (req, res) => {
 // })
 
 //Index route :-
-app.get("/placelist", async (req, res) => {
+app.get("/placelist", wrapAsync(async (req, res) => {
     const Places = await PlaceList.find({})
     res.render("places/index.ejs", { Places })
-});
+
+}));
 
 //Error was coming as new was also considered as an id
 
@@ -85,41 +87,47 @@ app.post("/placelist", wrapAsync(async (req, res, next) => {
 }))
 
 //Show route :-
-app.get("/placelist/:id", async (req, res) => {
+app.get("/placelist/:id", wrapAsync(async (req, res) => {
 
     let { id } = req.params;
 
     const place = await PlaceList.findById(id);
     res.render("places/show.ejs", { place })
-})
+}))
 
 
 //Edit Route :-
-app.get("/placelist/:id/edit", async (req, res) => {
+app.get("/placelist/:id/edit", wrapAsync(async (req, res) => {
 
     let { id } = req.params;
     const place = await PlaceList.findById(id);
     res.render("places/edit.ejs", { place });
-})
+}))
 
 //Update and Save Route:-
-app.put("/placelist/:id", async (req, res) => {
+app.put("/placelist/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
     res.redirect(`/placelist/${id}`);
-})
+}))
 
 //Delete Route :-
-app.delete("/placelist/:id", async (req, res) => {
+app.delete("/placelist/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const deletedPlace = await PlaceList.findByIdAndDelete(id);
     console.log(deletedPlace);
     res.redirect("/placelist");
-})
+}))
 
 // Error handling middleware is being defined :-
 // It is made firstly for new route :-
 
 app.use((err, req, res, next) => {
-    res.send("Something went wrong")
+    let{statusCode = 500,message="Something went wrong"} = err;
+    res.status(statusCode).send(message);
 }) 
+
+//Match with every request :-
+app.all("*",(req,res,next) =>{
+    next(new ExpressError(404,"Page not Found"));
+})
