@@ -119,15 +119,15 @@ app.delete("/placelist/:id", wrapAsync(async (req, res) => {
     res.redirect("/placelist");
 }))
 
+//Match with every request :-
+app.all("*", (req, res, next) => {
+    next(new ExpressError(404, "Page not Found!"));
+})
+
 // Error handling middleware is being defined :-
 // It is made firstly for new route :-
-
 app.use((err, req, res, next) => {
-    let{statusCode = 500,message="Something went wrong"} = err;
-    res.status(statusCode).send(message);
+    let { statusCode = 500, message = "Something went wrong" } = err;
+    res.status(statusCode).render("error.ejs", { err })
+    //res.status(statusCode).send(message);
 }) 
-
-//Match with every request :-
-app.all("*",(req,res,next) =>{
-    next(new ExpressError(404,"Page not Found"));
-})
