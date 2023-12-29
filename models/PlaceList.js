@@ -22,6 +22,12 @@ const PlaceListSchema = new Schema({
     country: {
         type: String
     },
+    reviews : [
+        {
+            type: Schema.Types.ObjectId,
+            ref:"Reviews",
+        }
+    ]
 })
 
 // Creation of Model
