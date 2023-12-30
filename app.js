@@ -7,6 +7,7 @@ const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
+const Review = require("./models/Review.js")
 
 //View engine set :-
 app.set("view engine", "ejs")
@@ -59,6 +60,22 @@ app.get("/", (req, res) => {
 //     console.log("Sample was tested");
 //     res.send("Sample testing is done");
 // })
+
+
+//Reviews :-
+//POST route
+app.post("/placelist/:id/reviews", async (req, res) => {
+
+    let place = await PlaceList.findById(req.params.id)
+    let newReview = new Review(req.body.review);
+    place.reviews.push(newReview);
+
+    await newReview.save();
+    await place.save()
+    
+    res.redirect(`/placelist/${req.params.id}`);
+})
+
 
 //Index route :-
 app.get("/placelist", wrapAsync(async (req, res) => {
@@ -130,4 +147,6 @@ app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong" } = err;
     res.status(statusCode).render("error.ejs", { err })
     //res.status(statusCode).send(message);
-}) 
+})
+
+
