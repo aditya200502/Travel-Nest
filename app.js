@@ -9,6 +9,8 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const Review = require("./models/Review.js")
 
+
+
 //View engine set :-
 app.set("view engine", "ejs")
 app.set("views", path.join(__dirname, "views"));
@@ -18,6 +20,7 @@ app.use(express.static(path.join(__dirname, "public")))
 
 //Major error fixed :-
 app.use('/placelist/:id', express.static(path.join(__dirname, "public")))
+app.use('/placelist/:id/reviews', express.static(path.join(__dirname, "public")))
 app.engine("ejs", ejsMate);
 
 
@@ -64,7 +67,7 @@ app.get("/", (req, res) => {
 
 //Reviews :-
 //POST route
-app.post("/placelist/:id/reviews", async (req, res) => {
+app.post("/placelist/:id/reviews" ,wrapAsync(async (req, res) => {
 
     let place = await PlaceList.findById(req.params.id)
     let newReview = new Review(req.body.review);
@@ -74,7 +77,7 @@ app.post("/placelist/:id/reviews", async (req, res) => {
     await place.save()
     
     res.redirect(`/placelist/${req.params.id}`);
-})
+}))
 
 
 //Index route :-
@@ -91,7 +94,7 @@ app.get("/placelist/new", (req, res) => {
     res.render("places/new.ejs");
 })
 //Create Route :-
-app.post("/placelist", wrapAsync(async (req, res, next) => {
+app.post("/placelist",wrapAsync(async (req, res, next) => {
 
     //let{title,description,image,price,country,location} = req.body;
     let placelist = req.body.placelist;
@@ -114,7 +117,7 @@ app.get("/placelist/:id", wrapAsync(async (req, res) => {
 
 
 //Edit Route :-
-app.get("/placelist/:id/edit", wrapAsync(async (req, res) => {
+app.get("/placelist/:id/edit",wrapAsync(async (req, res) => {
 
     let { id } = req.params;
     const place = await PlaceList.findById(id);
