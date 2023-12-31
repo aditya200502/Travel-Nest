@@ -66,7 +66,7 @@ app.get("/", (req, res) => {
 
 
 //Reviews :-
-//POST route
+//POST Reviews route
 app.post("/placelist/:id/reviews" ,wrapAsync(async (req, res) => {
 
     let place = await PlaceList.findById(req.params.id);
@@ -77,6 +77,17 @@ app.post("/placelist/:id/reviews" ,wrapAsync(async (req, res) => {
     await place.save()
     
     res.redirect(`/placelist/${req.params.id}`);
+}))
+
+//Delete Reviews Route :-
+app.delete("/placelist/:id/reviews/:reviewId",wrapAsync(async(req,res) => {
+     
+    let {id,reviewId} = req.params;
+
+    await PlaceList.findByIdAndUpdate(id, {$pull:{reviews: reviewId}});
+    await Review.findByIdAndDelete(reviewId);
+
+    res.redirect(`/placelist/${id}`);
 }))
 
 
