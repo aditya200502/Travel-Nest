@@ -69,7 +69,7 @@ app.get("/", (req, res) => {
 //POST route
 app.post("/placelist/:id/reviews" ,wrapAsync(async (req, res) => {
 
-    let place = await PlaceList.findById(req.params.id)
+    let place = await PlaceList.findById(req.params.id);
     let newReview = new Review(req.body.review);
     place.reviews.push(newReview);
 
@@ -111,7 +111,7 @@ app.get("/placelist/:id", wrapAsync(async (req, res) => {
 
     let { id } = req.params;
 
-    const place = await PlaceList.findById(id);
+    const place = await PlaceList.findById(id).populate("reviews");;
     res.render("places/show.ejs", { place })
 }))
 
