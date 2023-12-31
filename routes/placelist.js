@@ -63,9 +63,5 @@ router.delete("/:id", wrapAsync(async (req, res) => {
     res.redirect("/placelist");
 }))
 
-//Match with every request :-
-router.all("*", (req, res, next) => {
-    next(new ExpressError(404, "Page not Found!"));
-})
 
 module.exports = router;

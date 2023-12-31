@@ -1,1 +1,4 @@
 findByIdAndDelete automatically calls mongoose middleware called findOneAndDelete
+
+for restructing reviews we have used express router merge params
+router = express.Router({ mergeParams: true})
