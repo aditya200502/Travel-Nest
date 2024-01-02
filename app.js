@@ -8,6 +8,9 @@ const placelist = require("./routes/placelist.js")
 const review = require("./routes/review.js")
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport")
+const passportLocal = require("passport-local");
+const User = require("./models/User.js")
 
 
 //View engine set :-
@@ -52,6 +55,12 @@ const sessionOptions = {
 app.use(session(sessionOptions)); 
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportLocal(User.authenticate()))
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 //Flash Middleware :-
 app.use((req,res,next) => {
