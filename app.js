@@ -62,6 +62,18 @@ passport.use(new passportLocal(User.authenticate()))
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+//Demo User is created is testing :-
+app.get("/demouser", async(req,res) => {
+    let fakeUser = new User({
+        email:'adi@gmail.com',
+        username:"Adi"
+    });
+
+    let newUser = await User.register(fakeUser,"Adi12@");
+    console.log(newUser);
+    res.send(newUser); 
+})
+
 //Flash Middleware :-
 app.use((req,res,next) => {
 
