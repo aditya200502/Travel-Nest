@@ -35,6 +35,8 @@ router.post("/",wrapAsync(async (req, res, next) => {
 
     const newPlacelist = new PlaceList(placelist);
     await newPlacelist.save();
+
+    req.flash("success","New place is added")
     res.redirect("/placelist");
 
 

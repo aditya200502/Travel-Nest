@@ -6,6 +6,8 @@ const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
 const placelist = require("./routes/placelist.js")
 const review = require("./routes/review.js")
+const session = require("express-session");
+const flash = require("connect-flash");
 
 
 //View engine set :-
@@ -34,6 +36,29 @@ main()
 async function main() {
     await mongoose.connect(MongoUrl);
 }
+
+//Session option is created :-
+const sessionOptions = {
+    secret : "mycode",
+    resave:false,
+    saveUninitialized: true,
+    cookie:{
+        expires: Date.now() +  3 * 24 * 60 * 60 * 1000,
+        maxAge : 3 * 24 * 60 * 60 * 1000,
+        httpOnly: true
+    }
+};
+
+app.use(session(sessionOptions)); 
+app.use(flash());
+
+
+//Flash Middleware :-
+app.use((req,res,next) => {
+
+    res.locals.success = req.flash("success");
+    next();
+})
 
 app.use("/placelist/:id/reviews",review)
 app.use("/placelist",placelist)
