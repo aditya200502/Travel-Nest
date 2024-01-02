@@ -54,6 +54,8 @@ router.get("/:id/edit",wrapAsync(async (req, res) => {
 router.put("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
+
+    req.flash("success","Placelist is updated")
     res.redirect(`/placelist/${id}`);
 }))
 
@@ -62,6 +64,7 @@ router.delete("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const deletedPlace = await PlaceList.findByIdAndDelete(id);
     console.log(deletedPlace);
+    req.flash("success","Placelist is deleted")
     res.redirect("/placelist");
 }))
 
