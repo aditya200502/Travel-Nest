@@ -24,11 +24,16 @@ router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
 
     const place = await PlaceList.findById(id).populate("reviews");;
+
+    if (!place) {
+        req.flash("error", "Listing which you have requested does not exists")
+        res.redirect("/placelist");
+    }
     res.render("places/show.ejs", { place })
 }))
 
 //Create Route :-
-router.post("/",wrapAsync(async (req, res, next) => {
+router.post("/", wrapAsync(async (req, res, next) => {
 
     //let{title,description,image,price,country,location} = req.body;
     let placelist = req.body.placelist;
@@ -36,17 +41,23 @@ router.post("/",wrapAsync(async (req, res, next) => {
     const newPlacelist = new PlaceList(placelist);
     await newPlacelist.save();
 
-    req.flash("success","New place is added")
+    req.flash("success", "New place is added")
     res.redirect("/placelist");
 
 
 }))
 
 //Edit Route :-
-router.get("/:id/edit",wrapAsync(async (req, res) => {
+router.get("/:id/edit", wrapAsync(async (req, res) => {
 
     let { id } = req.params;
     const place = await PlaceList.findById(id);
+
+    if (!place) {
+        req.flash("error", "Listing which you have requested does not exists")
+        res.redirect("/placelist");
+    }
+    
     res.render("places/edit.ejs", { place });
 }))
 
@@ -55,7 +66,7 @@ router.put("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
 
-    req.flash("success","Placelist is updated")
+    req.flash("success", "Placelist is updated")
     res.redirect(`/placelist/${id}`);
 }))
 
@@ -64,7 +75,7 @@ router.delete("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
     const deletedPlace = await PlaceList.findByIdAndDelete(id);
     console.log(deletedPlace);
-    req.flash("success","Placelist is deleted")
+    req.flash("success", "Placelist is deleted")
     res.redirect("/placelist");
 }))
 
