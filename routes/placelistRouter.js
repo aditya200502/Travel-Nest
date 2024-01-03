@@ -3,7 +3,7 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const PlaceList = require("../models/PlaceList.js")
-const {isLoggedIn} = require("../middleware.js")
+const {isLoggedIn,isOwner} = require("../middleware.js")
 
 //Index route :-
 router.get("/", wrapAsync(async (req, res) => {
@@ -54,7 +54,7 @@ router.post("/", isLoggedIn,wrapAsync(async (req, res, next) => {
 }))
 
 //Edit Route :-
-router.get("/:id/edit", isLoggedIn,wrapAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
 
     let { id } = req.params;
     const place = await PlaceList.findById(id);
@@ -68,17 +68,17 @@ router.get("/:id/edit", isLoggedIn,wrapAsync(async (req, res) => {
 }))
 
 //Update and Save Route:-
-router.put("/:id", isLoggedIn,wrapAsync(async (req, res) => {
+router.put("/:id", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
     let { id } = req.params;
     await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
-
     req.flash("success", "Placelist is updated")
     res.redirect(`/placelist/${id}`);
 }))
 
 //Delete Route :-
-router.delete("/:id", isLoggedIn,wrapAsync(async (req, res) => {
+router.delete("/:id", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
     let { id } = req.params;
+
     const deletedPlace = await PlaceList.findByIdAndDelete(id);
     console.log(deletedPlace);
     req.flash("success", "Placelist is deleted")

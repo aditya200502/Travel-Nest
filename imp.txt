@@ -4,3 +4,6 @@ for restructing reviews we have used express router merge params
 router = express.Router({ mergeParams: true})
 
 Username and password is already defind by passport-local-mongoose
+
+<% if(currUser && currUser._id .equals(place.owner._id)){ %>
+  <% } %>
