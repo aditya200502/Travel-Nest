@@ -3,6 +3,7 @@ const router = express.Router({ mergeParams: true });
 const User = require("../models/User.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
+const { saveUrl } = require("../middleware.js");
 
 
 //Signup Routes :-
@@ -40,9 +41,11 @@ router.get("/login",(req,res) => {
     res.render("./users/login.ejs")
 })
 
-router.post("/login",passport.authenticate("local",{failureRedirect:"/login",failureFlash:true}),async(req,res) => {
+router.post("/login",saveUrl,passport.authenticate("local",{failureRedirect:"/login",failureFlash:true}),async(req,res) => {
     req.flash("success","Welcome back to TravelNest");
-    res.redirect("/placelist");
+
+    let redirectUrl = res.locals.redirectUrl || "/placelist";
+    res.redirect(redirectUrl);
 })
 
 //Logout Routes :-
