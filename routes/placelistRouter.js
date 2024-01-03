@@ -3,7 +3,7 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const PlaceList = require("../models/PlaceList.js")
-const {isLoggedIn,isOwner} = require("../middleware.js")
+const { isLoggedIn, isOwner } = require("../middleware.js")
 
 //Index route :-
 router.get("/", wrapAsync(async (req, res) => {
@@ -15,7 +15,7 @@ router.get("/", wrapAsync(async (req, res) => {
 //Error was coming as new was also considered as an id
 
 //New Route :-
-router.get("/new", isLoggedIn,(req, res) => {
+router.get("/new", isLoggedIn, (req, res) => {
 
     res.render("places/new.ejs");
 })
@@ -26,19 +26,24 @@ router.get("/:id", wrapAsync(async (req, res) => {
     let { id } = req.params;
 
     const place = await PlaceList.findById(id)
-    .populate("reviews")
-    .populate("owner");
+        .populate({
+            path: "reviews",
+            populate: { 
+                path: "author" 
+            }, 
+        })
+        .populate("owner")
 
     if (!place) {
         req.flash("error", "Listing which you have requested does not exists")
         res.redirect("/placelist");
     }
-    console.log(place)
+    //console.log(place)
     res.render("places/show.ejs", { place })
 }))
 
 //Create Route :-
-router.post("/", isLoggedIn,wrapAsync(async (req, res, next) => {
+router.post("/", isLoggedIn, wrapAsync(async (req, res, next) => {
 
     //let{title,description,image,price,country,location} = req.body;
     let placelist = req.body.placelist;
@@ -54,7 +59,7 @@ router.post("/", isLoggedIn,wrapAsync(async (req, res, next) => {
 }))
 
 //Edit Route :-
-router.get("/:id/edit", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
 
     let { id } = req.params;
     const place = await PlaceList.findById(id);
@@ -63,12 +68,12 @@ router.get("/:id/edit", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
         req.flash("error", "Listing which you have requested does not exists")
         res.redirect("/placelist");
     }
-    
+
     res.render("places/edit.ejs", { place });
 }))
 
 //Update and Save Route:-
-router.put("/:id", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
+router.put("/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     let { id } = req.params;
     await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
     req.flash("success", "Placelist is updated")
@@ -76,11 +81,11 @@ router.put("/:id", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
 }))
 
 //Delete Route :-
-router.delete("/:id", isLoggedIn,isOwner,wrapAsync(async (req, res) => {
+router.delete("/:id", isLoggedIn, isOwner, wrapAsync(async (req, res) => {
     let { id } = req.params;
 
     const deletedPlace = await PlaceList.findByIdAndDelete(id);
-    console.log(deletedPlace);
+    //console.log(deletedPlace);
     req.flash("success", "Placelist is deleted")
     res.redirect("/placelist");
 }))
