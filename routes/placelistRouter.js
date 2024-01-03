@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const PlaceList = require("../models/PlaceList.js")
 const { isLoggedIn, isOwner } = require("../middleware.js")
-const {indexRoute,newRoute,showRoute, createRoute, editRoute} = require("../controllers/placelist.js")
+const {indexRoute,newRoute,showRoute, createRoute, editRoute,updateRoute,deleteRoute} = require("../controllers/placelist.js")
 
 //Index route :-
 router.get("/", wrapAsync(indexRoute));
@@ -24,9 +24,9 @@ router.post("/", isLoggedIn, wrapAsync(createRoute))
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(editRoute))
 
 //Update and Save Route:-
-router.put("/:id", isLoggedIn, isOwner, wrapAsync())
+router.put("/:id", isLoggedIn, isOwner, wrapAsync(updateRoute))
 
 //Delete Route :-
-router.delete("/:id", isLoggedIn, isOwner, wrapAsync())
+router.delete("/:id", isLoggedIn, isOwner, wrapAsync(deleteRoute))
 
 module.exports = router;
