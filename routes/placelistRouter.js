@@ -3,6 +3,7 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const PlaceList = require("../models/PlaceList.js")
+const {isLoggedIn} = require("../middleware.js")
 
 //Index route :-
 router.get("/", wrapAsync(async (req, res) => {
@@ -14,7 +15,8 @@ router.get("/", wrapAsync(async (req, res) => {
 //Error was coming as new was also considered as an id
 
 //New Route :-
-router.get("/new", (req, res) => {
+router.get("/new", isLoggedIn,(req, res) => {
+
     res.render("places/new.ejs");
 })
 
@@ -33,7 +35,7 @@ router.get("/:id", wrapAsync(async (req, res) => {
 }))
 
 //Create Route :-
-router.post("/", wrapAsync(async (req, res, next) => {
+router.post("/", isLoggedIn,wrapAsync(async (req, res, next) => {
 
     //let{title,description,image,price,country,location} = req.body;
     let placelist = req.body.placelist;
@@ -48,7 +50,7 @@ router.post("/", wrapAsync(async (req, res, next) => {
 }))
 
 //Edit Route :-
-router.get("/:id/edit", wrapAsync(async (req, res) => {
+router.get("/:id/edit", isLoggedIn,wrapAsync(async (req, res) => {
 
     let { id } = req.params;
     const place = await PlaceList.findById(id);
@@ -62,7 +64,7 @@ router.get("/:id/edit", wrapAsync(async (req, res) => {
 }))
 
 //Update and Save Route:-
-router.put("/:id", wrapAsync(async (req, res) => {
+router.put("/:id", isLoggedIn,wrapAsync(async (req, res) => {
     let { id } = req.params;
     await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
 
@@ -71,7 +73,7 @@ router.put("/:id", wrapAsync(async (req, res) => {
 }))
 
 //Delete Route :-
-router.delete("/:id", wrapAsync(async (req, res) => {
+router.delete("/:id", isLoggedIn,wrapAsync(async (req, res) => {
     let { id } = req.params;
     const deletedPlace = await PlaceList.findByIdAndDelete(id);
     console.log(deletedPlace);

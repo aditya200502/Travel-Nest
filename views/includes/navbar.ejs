@@ -15,8 +15,18 @@
         <a class="nav-link" href="/">Home</a>
         <a class="nav-link" href="/placelist">All Placelist</a>
         <a class="nav-link" href="/placelist/new">Add New Placelist</a>
-        
       </div>
+      <div class="navbar-nav ms-auto">
+
+        <% if(!currUser){ %>
+        <a class="nav-link" href="/signup">Signup</a>
+        <a class="nav-link" href="/login">Login</a>
+        <%}%>
+        <%if(currUser){%>
+        <a class="nav-link" href="/logout">Log out</a>
+        <% } %>
+      </div>
+
     </div>
   </div>
 </nav>

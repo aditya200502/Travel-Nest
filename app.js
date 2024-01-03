@@ -4,10 +4,14 @@ const mongoose = require("mongoose");
 const path = require("path")
 const methodOverride = require("method-override")
 const ejsMate = require("ejs-mate")
-const placelist = require("./routes/placelist.js")
-const review = require("./routes/review.js")
+const placelistRouter = require("./routes/placelistRouter.js")
+const reviewRouter = require("./routes/reviewRouter.js")
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport")
+const passportLocal = require("passport-local");
+const User = require("./models/User.js")
+const userRouter = require("./routes/userRouter.js")
 
 
 //View engine set :-
@@ -52,17 +56,41 @@ const sessionOptions = {
 app.use(session(sessionOptions)); 
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new passportLocal(User.authenticate()))
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+// //Demo User is created for testing :-
+// app.get("/demouser", async(req,res) => {
+//     let fakeUser = new User({
+//         email:'adi@gmail.com',
+//         username:"Adi"
+//     });
+
+//     let newUser = await User.register(fakeUser,"Adi12@");
+//     console.log(newUser);
+//     res.send(newUser); 
+// })
 
 //Flash Middleware :-
 app.use((req,res,next) => {
 
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
     next();
 })
 
-app.use("/placelist/:id/reviews",review)
-app.use("/placelist",placelist)
+app.get("/",(req,res) => {
+    res.send("Working well");
+})
+
+app.use("/placelist/:id/reviews",reviewRouter)
+app.use("/placelist",placelistRouter)
+app.use("/",userRouter)
 
 
 app.listen(8080, () => {

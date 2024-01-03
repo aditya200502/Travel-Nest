@@ -2,3 +2,5 @@ findByIdAndDelete automatically calls mongoose middleware called findOneAndDelet
 
 for restructing reviews we have used express router merge params
 router = express.Router({ mergeParams: true})
+
+Username and password is already defind by passport-local-mongoose
