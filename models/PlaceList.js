@@ -28,13 +28,17 @@ const PlaceListSchema = new Schema({
             type: Schema.Types.ObjectId,
             ref: "Review",
         }
-    ]
+    ],
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+    }
 })
 
 //New Schema is created for handling deletion with reviews
 PlaceListSchema.post("findOneAndDelete", async (place) => {
 
-    if(place){
+    if (place) {
         await Review.deleteMany({ _id: { $in: place.reviews } });
     }
 })

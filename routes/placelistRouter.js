@@ -25,12 +25,15 @@ router.get("/:id", wrapAsync(async (req, res) => {
 
     let { id } = req.params;
 
-    const place = await PlaceList.findById(id).populate("reviews");;
+    const place = await PlaceList.findById(id)
+    .populate("reviews")
+    .populate("owner");
 
     if (!place) {
         req.flash("error", "Listing which you have requested does not exists")
         res.redirect("/placelist");
     }
+    console.log(place)
     res.render("places/show.ejs", { place })
 }))
 
@@ -41,6 +44,7 @@ router.post("/", isLoggedIn,wrapAsync(async (req, res, next) => {
     let placelist = req.body.placelist;
 
     const newPlacelist = new PlaceList(placelist);
+    newPlacelist.owner = req.user._id;
     await newPlacelist.save();
 
     req.flash("success", "New place is added")
