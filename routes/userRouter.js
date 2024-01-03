@@ -4,6 +4,8 @@ const User = require("../models/User.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const passport = require("passport");
 
+
+//Signup Routes :-
 router.get("/signup", (req, res) => {
     res.render("./users/signup.ejs")
 })
@@ -26,6 +28,8 @@ router.post("/signup", wrapAsync(async (req, res) => {
     }
 }))
 
+//Login Routes :-
+
 router.get("/login",(req,res) => {
     res.render("./users/login.ejs")
 })
@@ -33,6 +37,17 @@ router.get("/login",(req,res) => {
 router.post("/login",passport.authenticate("local",{failureRedirect:"/login",failureFlash:true}),async(req,res) => {
     req.flash("success","Welcome back to TravelNest");
     res.redirect("/placelist");
+})
+
+//Logout Routes :-
+router.get("/logout",(req,res,next) => {
+    req.logOut((err) => {
+        if(err){
+            return next(err);
+        }
+        req.flash("success","User is Logged Out")
+        res.redirect("/placelist");
+    })
 })
 
 module.exports = router;
