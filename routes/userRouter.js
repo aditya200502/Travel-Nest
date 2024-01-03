@@ -19,9 +19,15 @@ router.post("/signup", wrapAsync(async (req, res) => {
         let registeredUser = await User.register(newUser, password);
         console.log(registeredUser);
 
-        req.flash("success", "User registered successfully")
+        //Just after signup user should be logged in
+        req.login(registeredUser,(err)=> {
+            if(err){
+                return next(err);
+            }
+            req.flash("success", "User registered successfully")
+            res.redirect("/placelist");
+        })
 
-        res.redirect("/placelist");
     } catch (err) {
         req.flash("error", err.message);
         res.redirect("/placelist");
