@@ -8,19 +8,19 @@ const { signupRoute, loginRoute, logoutRoute } = require("../controllers/user.js
 //Signup Routes :-
 router
     .route("/signup")
-    .get("/signup", (req, res) => {
+    .get((req, res) => {
         res.render("./users/signup.ejs")
     })
-    .post("/signup", wrapAsync(signupRoute))
+    .post(wrapAsync(signupRoute))
 
 //Login Routes :-
 
 router
     .route("/login")
-    .get("/login", (req, res) => {
+    .get((req, res) => {
         res.render("./users/login.ejs")
     })
-    .post("/login",
+    .post(
         saveUrl,
         passport.authenticate(
             "local",
