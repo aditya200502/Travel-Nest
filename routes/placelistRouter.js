@@ -3,16 +3,20 @@ const router = express.Router();
 const wrapAsync = require("../utils/wrapAsync.js");
 const { isLoggedIn, isOwner } = require("../middleware.js")
 const { indexRoute, newRoute, showRoute, createRoute, editRoute, updateRoute, deleteRoute } = require("../controllers/placelist.js")
+const multer = require("multer")
+const upload = multer({ dest: 'uploads/' })
 
 //Index and Create route :-
 router
     .route("/")
     .get(wrapAsync(indexRoute))
-    .post(
-        isLoggedIn,
-        wrapAsync(createRoute)
-    )
-
+    // .post(
+    //     isLoggedIn,
+    //     wrapAsync(createRoute)
+    // )
+    .post( upload.single('placelist[image]'),(req,res) => {
+        res.send(req.file);
+    })
 
 //New Route :-
 router.get("/new", isLoggedIn, newRoute)
