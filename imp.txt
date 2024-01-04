@@ -4,3 +4,10 @@ for restructing reviews we have used express router merge params
 router = express.Router({ mergeParams: true})
 
 Username and password is already defind by passport-local-mongoose
+
+If we have to change form type, meaning if we have to add some pdf file through our form then we need to set
+enctype = "mutipart/form-data"
+
+we use multer library for it
+
+used cloudinary for uploading image

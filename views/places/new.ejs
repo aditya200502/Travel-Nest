@@ -9,6 +9,7 @@
         action="/placelist"
         novalidate
         class="needs-validation"
+        enctype="multipart/form-data"
       >
         <div>
           <label for="title" class="form-label">Title</label>
@@ -34,12 +35,12 @@
         </div>
 
         <br />
+
         <div>
-          <label for="image" class="form-label">Image URL Link</label>
+          <label for="image" class="form-label">Upload image</label>
           <input
             name="placelist[image]"
-            placeholder="Enter image link"
-            type="text"
+            type="file"
             class="form-control"
           />
         </div>
