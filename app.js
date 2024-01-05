@@ -37,10 +37,21 @@ async function main() {
     await mongoose.connect(MongoUrl);
 }
 
+
+//Mongostore is created :-
+const mongostore = MongoStore.create({
+    mongoUrl: MongoUrl,
+    crypto: {
+        secret: "mycode"
+    },
+    touchAfter: 24 * 3600
+})
+
 //Session option is created :-
 const sessionOptions = {
-    secret : "mycode",
-    resave:false,
+    store: mongostore,
+    secret: "mycode",
+    resave: false,
     saveUninitialized: true,
     cookie:{
         expires: Date.now() +  3 * 24 * 60 * 60 * 1000,
