@@ -1,4 +1,7 @@
 const PlaceList = require("../models/PlaceList.js")
+const mbxgeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapToken = process.env.MAP_TOKEN
+const geocodingClient = mbxgeocoding({ accessToken: mapToken })
 
 //Index Route
 module.exports.indexRoute = async (req, res) => {
@@ -20,9 +23,9 @@ module.exports.showRoute = async (req, res) => {
     const place = await PlaceList.findById(id)
         .populate({
             path: "reviews",
-            populate: { 
-                path: "author" 
-            }, 
+            populate: {
+                path: "author"
+            },
         })
         .populate("owner")
 
@@ -37,6 +40,16 @@ module.exports.showRoute = async (req, res) => {
 //Create Route
 module.exports.createRoute = async (req, res, next) => {
 
+    let response =  await geocodingClient
+    .forwardGeocode({
+        query: req.body.placelist.location,
+        limit: 1
+    })
+     .send()
+
+    console.log(response.body.features[0].geometry);
+    res.send("Done");
+
     //let{title,description,image,price,country,location} = req.body;
     let url = req.file.path;
     let filename = req.file.filename;
@@ -45,7 +58,7 @@ module.exports.createRoute = async (req, res, next) => {
 
     const newPlacelist = new PlaceList(placelist);
     newPlacelist.owner = req.user._id;
-    newPlacelist.image = {url,filename};
+    newPlacelist.image = { url, filename };
     await newPlacelist.save();
 
     req.flash("success", "New place is added")
@@ -64,9 +77,9 @@ module.exports.editRoute = async (req, res) => {
     }
 
     let originalImage = place.image.url;
-    originalImage =  originalImage.replace("/upload","/upload/w_250");
+    originalImage = originalImage.replace("/upload", "/upload/w_250");
 
-    res.render("places/edit.ejs", { place ,originalImage});
+    res.render("places/edit.ejs", { place, originalImage });
 }
 
 //Update and Save Route
@@ -74,12 +87,12 @@ module.exports.updateRoute = async (req, res) => {
     let { id } = req.params;
     let place = await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
 
-    if(typeof(req.file) !== "undefined"){
+    if (typeof (req.file) !== "undefined") {
 
         let url = req.file.path;
         let filename = req.file.filename;
-    
-        place.image = {url,filename};
+
+        place.image = { url, filename };
         await place.save()
     }
     req.flash("success", "Placelist is updated")

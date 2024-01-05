@@ -11,3 +11,5 @@ enctype = "mutipart/form-data"
 we use multer library for it
 
 used cloudinary for uploading image
+
+mapbox is used for map features
