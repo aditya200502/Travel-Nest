@@ -57,7 +57,8 @@ module.exports.createRoute = async (req, res, next) => {
     newPlacelist.owner = req.user._id;
     newPlacelist.image = { url, filename };
     newPlacelist.geometry = response.body.features[0].geometry
-    await newPlacelist.save();
+
+    const Place = await newPlacelist.save();
 
     req.flash("success", "New place is added")
     res.redirect("/placelist");
