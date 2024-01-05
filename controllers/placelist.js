@@ -63,7 +63,10 @@ module.exports.editRoute = async (req, res) => {
         res.redirect("/placelist");
     }
 
-    res.render("places/edit.ejs", { place });
+    let originalImage = place.image.url;
+    originalImage =  originalImage.replace("/upload","/upload/w_250");
+
+    res.render("places/edit.ejs", { place ,originalImage});
 }
 
 //Update and Save Route
