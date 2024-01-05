@@ -5,7 +5,7 @@
     <div class="col-8 offset-2">
 
       <h3>Edit Placelist</h3>
-      <form method="post" action="/placelist/<%=place._id%>?_method=put" novalidate class="needs-validation">
+      <form method="post" action="/placelist/<%=place._id%>?_method=put" novalidate class="needs-validation" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input
@@ -27,13 +27,11 @@
         </div>
 
         <div class="mb-3">
-          <label for="image" class="form-label">Image URL Link</label>
+          <label for="image" class="form-label">Upload Image</label>
           <input
             name="placelist[image]"
-            value="<%=place.image%>"
             type="text"
             class="form-control"
-            required
           />
           <div class="invalid-feedback">Please enter URL Link!</div>
         </div>

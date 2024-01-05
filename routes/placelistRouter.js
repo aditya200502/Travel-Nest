@@ -26,7 +26,7 @@ router.get("/new", isLoggedIn, newRoute)
 router
     .route("/:id")
     .get(wrapAsync(showRoute))
-    .put(isLoggedIn, isOwner, wrapAsync(updateRoute))
+    .put(isLoggedIn, isOwner, upload.single('placelist[image]'),wrapAsync(updateRoute))
     .delete(isLoggedIn, isOwner, wrapAsync(deleteRoute))
 
 

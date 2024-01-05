@@ -69,7 +69,16 @@ module.exports.editRoute = async (req, res) => {
 //Update and Save Route
 module.exports.updateRoute = async (req, res) => {
     let { id } = req.params;
-    await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
+    let place = await PlaceList.findByIdAndUpdate(id, { ...req.body.placelist });
+
+    if(typeof(req.file) !== "undefined"){
+
+        let url = req.file.path;
+        let filename = req.file.filename;
+    
+        place.image = {url,filename};
+        await place.save()
+    }
     req.flash("success", "Placelist is updated")
     res.redirect(`/placelist/${id}`);
 }
