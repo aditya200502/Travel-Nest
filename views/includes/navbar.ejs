@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/"><i class="fa-brands fa-airbnb">TravelNest</i></a>
+    <a class="navbar-brand" href="/placelist"><i class="fa-brands fa-airbnb">TravelNest</i></a>
     <button
       class="navbar-toggler"
       type="button"
@@ -12,18 +12,17 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
       <div class="navbar-nav">
-        <a class="nav-link" href="/">Home</a>
-        <a class="nav-link" href="/placelist">All Placelist</a>
-        <a class="nav-link" href="/placelist/new">Add New Placelist</a>
+        <a class="nav-link" href="/placelist">Explore</a>
       </div>
       <div class="navbar-nav ms-auto">
-
+        
+        <a class="nav-link" href="/placelist/new">Add New Placelist</a>
         <% if(!currUser){ %>
-        <a class="nav-link" href="/signup">Signup</a>
-        <a class="nav-link" href="/login">Login</a>
+        <a class="nav-link" href="/signup"><b>Signup</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
         <%}%>
         <%if(currUser){%>
-        <a class="nav-link" href="/logout">Log out</a>
+        <a class="nav-link" href="/logout"><b>Log out</b></a>
         <% } %>
       </div>
 

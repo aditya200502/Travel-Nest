@@ -89,9 +89,9 @@ app.use((req,res,next) => {
     next();
 })
 
-app.get("/",(req,res) => {
-    res.send("Working well");
-})
+// app.get("/",(req,res) => {
+//     res.send("Working well");
+// })
 
 app.use("/placelist/:id/reviews",reviewRouter)
 app.use("/placelist",placelistRouter)
