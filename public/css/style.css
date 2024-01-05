@@ -115,3 +115,34 @@ body{
 }
 
 /* Home page */
+.filters{
+    display: flex;
+  }
+  .single {
+    text-align: center;
+    margin-right: 2rem;
+    margin-top: 2rem;
+    opacity: 0.7;
+  }
+
+  .single:hover{
+    opacity: 1;
+    cursor: pointer;
+  }
+  .single p {
+    font-size: 0.8rem;
+  }
+
+/* Search bar */
+.btn-search{
+    background-color: #fe424d;
+    color: #fff;
+}
+.btn-search:hover{
+    background-color: #fe424d;
+    color: #fff;
+}
+.btn-search i{
+    display: inline;
+    margin-right: 0.5rem;
+}

@@ -16,6 +16,15 @@
       </div>
       <div class="navbar-nav ms-auto">
         
+        <form class="d-flex" role="search">
+          <input class="form-control me-2" type="search" placeholder="Search destinations">
+          <button class="btn btn-search" type="submit">
+            <i class="fa-solid fa-magnifying-glass"></i>Search</button>
+        </form>
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        
         <a class="nav-link" href="/placelist/new">Add New Placelist</a>
         <% if(!currUser){ %>
         <a class="nav-link" href="/signup"><b>Signup</b></a>
