@@ -4,21 +4,19 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const { isLoggedIn, isOwner } = require("../middleware.js")
 const { indexRoute, newRoute, showRoute, createRoute, editRoute, updateRoute, deleteRoute } = require("../controllers/placelist.js")
 const multer = require("multer");
-const {storage} = require("../cloudConfig.js");
-const upload = multer({storage});
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
 
 //Index and Create route :-
 router
     .route("/")
     .get(wrapAsync(indexRoute))
-    // .post(
-    //     isLoggedIn,
-    //     wrapAsync(createRoute)
-    // )
-    .post( upload.single('placelist[image]'),(req,res) => {
-        console.log(req.file)
-        res.send(req.file);
-    })
+    .post(
+        isLoggedIn,
+        upload.single('placelist[image]'),
+        wrapAsync(createRoute)
+    )
+
 
 //New Route :-
 router.get("/new", isLoggedIn, newRoute)

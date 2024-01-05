@@ -38,10 +38,14 @@ module.exports.showRoute = async (req, res) => {
 module.exports.createRoute = async (req, res, next) => {
 
     //let{title,description,image,price,country,location} = req.body;
+    let url = req.file.path;
+    let filename = req.file.filename;
+
     let placelist = req.body.placelist;
 
     const newPlacelist = new PlaceList(placelist);
     newPlacelist.owner = req.user._id;
+    newPlacelist.image = {url,filename};
     await newPlacelist.save();
 
     req.flash("success", "New place is added")
