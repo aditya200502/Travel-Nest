@@ -1,7 +1,7 @@
-if(process.env.NODE_ENV !="production"){
+if (process.env.NODE_ENV != "production") {
     require('dotenv').config()
 }
- 
+
 
 const express = require("express");
 const app = express();
@@ -12,6 +12,7 @@ const ejsMate = require("ejs-mate")
 const placelistRouter = require("./routes/placelistRouter.js")
 const reviewRouter = require("./routes/reviewRouter.js")
 const session = require("express-session");
+const MongoStore = require("connect-mongo")
 const flash = require("connect-flash");
 const passport = require("passport")
 const passportLocal = require("passport-local");
@@ -33,7 +34,7 @@ app.engine("ejs", ejsMate);
 
 
 //Database creation :-
-const MongoUrl = 'mongodb://127.0.0.1:27017/TravelNest';
+const MongoUrl = process.env.ATLAS_URL
 
 main()
     .then(() => {
@@ -46,19 +47,31 @@ async function main() {
     await mongoose.connect(MongoUrl);
 }
 
+
+//Mongostore is created :-
+const mongostore = MongoStore.create({
+    mongoUrl: MongoUrl,
+    crypto: {
+        secret: "mycode"
+    },
+    touchAfter: 24 * 3600
+})
+
 //Session option is created :-
 const sessionOptions = {
-    secret : "mycode",
-    resave:false,
+    store: mongostore,
+    secret: "mycode",
+    resave: false,
     saveUninitialized: true,
-    cookie:{
-        expires: Date.now() +  3 * 24 * 60 * 60 * 1000,
-        maxAge : 3 * 24 * 60 * 60 * 1000,
+    cookie: {
+        expires: Date.now() + 3 * 24 * 60 * 60 * 1000,
+        maxAge: 3 * 24 * 60 * 60 * 1000,
         httpOnly: true
     }
 };
 
-app.use(session(sessionOptions)); 
+
+app.use(session(sessionOptions));
 app.use(flash());
 
 app.use(passport.initialize());
@@ -81,7 +94,7 @@ passport.deserializeUser(User.deserializeUser());
 // })
 
 //Flash Middleware :-
-app.use((req,res,next) => {
+app.use((req, res, next) => {
 
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -93,9 +106,9 @@ app.use((req,res,next) => {
 //     res.send("Working well");
 // })
 
-app.use("/placelist/:id/reviews",reviewRouter)
-app.use("/placelist",placelistRouter)
-app.use("/",userRouter)
+app.use("/placelist/:id/reviews", reviewRouter)
+app.use("/placelist", placelistRouter)
+app.use("/", userRouter)
 
 
 app.listen(8080, () => {
