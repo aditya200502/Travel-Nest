@@ -40,15 +40,12 @@ module.exports.showRoute = async (req, res) => {
 //Create Route
 module.exports.createRoute = async (req, res, next) => {
 
-    let response =  await geocodingClient
-    .forwardGeocode({
-        query: req.body.placelist.location,
-        limit: 1
-    })
-     .send()
-
-    console.log(response.body.features[0].geometry);
-    res.send("Done");
+    let response = await geocodingClient
+        .forwardGeocode({
+            query: req.body.placelist.location,
+            limit: 1
+        })
+        .send()
 
     //let{title,description,image,price,country,location} = req.body;
     let url = req.file.path;
@@ -59,6 +56,7 @@ module.exports.createRoute = async (req, res, next) => {
     const newPlacelist = new PlaceList(placelist);
     newPlacelist.owner = req.user._id;
     newPlacelist.image = { url, filename };
+    newPlacelist.geometry = response.body.features[0].geometry
     await newPlacelist.save();
 
     req.flash("success", "New place is added")
