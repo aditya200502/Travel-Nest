@@ -3,9 +3,14 @@
   <br /><br />
   <div class="row">
     <div class="col-8 offset-2">
-
       <h3>Edit Placelist</h3>
-      <form method="post" action="/placelist/<%=place._id%>?_method=put" novalidate class="needs-validation">
+      <form
+        method="post"
+        action="/placelist/<%=place._id%>?_method=put"
+        novalidate
+        class="needs-validation"
+        enctype="multipart/form-data"
+      >
         <div class="mb-3">
           <label for="title" class="form-label">Title</label>
           <input
@@ -27,14 +32,13 @@
         </div>
 
         <div class="mb-3">
-          <label for="image" class="form-label">Image URL Link</label>
-          <input
-            name="placelist[image]"
-            value="<%=place.image%>"
-            type="text"
-            class="form-control"
-            required
-          />
+          Original Image :- <br/>
+          <img src="<%= originalImage%>">
+        </div>
+
+        <div class="mb-3">
+          <label for="image" class="form-label">Upload Image</label>
+          <input name="placelist[image]" type="file" class="form-control" />
           <div class="invalid-feedback">Please enter URL Link!</div>
         </div>
 
@@ -48,7 +52,6 @@
               class="form-control"
               required
             />
-            
           </div>
 
           <div class="col-md-8">
@@ -79,7 +82,6 @@
         <button class="btn btn-dark add-btn">Edit</button>
         <br /><br />
       </form>
-      
     </div>
   </div>
   <script src="/js/script.js"></script>

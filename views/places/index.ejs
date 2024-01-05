@@ -1,30 +1,82 @@
 <% layout("/layouts/boilerplate") %>
-<body>
-  <h3>All Places</h3>
-  <!-- <form method="GET" action="/placelist/new">
-      <button>Create New PlaceList</button>
-    </form> -->
 
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
-      
-      <% for(let place of Places){ %>
-        <a href="/placelist/<%=place._id%>" class="links">
+<nav class="filters">
+  <div class="single">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Room</p>
+  </div>
 
-          <div class="card col placelist-card">
-            <img src="<%=place.image%>" class="card-img-top" alt="..." style="height: 20rem"/>
-            <div class="card-img-overlay"></div>
-            <div class="card-body">
-              <p class="card-text">
-                <b><%=place.title%></b> <br />
-                &#8377; <%=place.price%> /night
-              </p>
-            </div>
-            
-          </div>
+  <div class="single">
+    <div><i class="fa-solid fa-city"></i></div>
+    <p>Iconic cities</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-mountain"></i></div>
+    <p>Mountain</p>
+  </div>
 
-        </a>
-        <% } %>
+  <div class="single">
+    <div><i class="fa-solid fa-monument"></i></div>
+    <p>Monuments</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-archway"></i></div>
+    <p>Castles</p>
+  </div>
 
+  <div class="single">
+    <div><i class="fa-solid fa-person-swimming"></i></div>
+    <p>Pools</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-tractor"></i></div>
+    <p>Farms</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-campground"></i></div>
+    <p>Campground</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-person-skiing"></i></div>
+    <p>Arctic</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-sailboat"></i></div>
+    <p>Oceans</p>
+  </div>
+  <div class="single">
+    <div><i class="fa-solid fa-umbrella-beach"></i></div>
+    <p>Beach</p>
+  </div>  
+  <div class="single">
+    <div><i class="fa-solid fa-hippo"></i></div>
+    <p>Zoo</p>
+  </div>  
+
+</nav>
+
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+  <% for(let place of Places){ %>
+  <a href="/placelist/<%=place._id%>" class="links">
+    <div class="card col placelist-card">
+      <img
+        src="<%=place.image.url%>"
+        class="card-img-top"
+        alt="..."
+        style="height: 20rem"
+      />
+      <div class="card-img-overlay"></div>
+      <div class="card-body">
+        <p class="card-text">
+          <b><%=place.title%></b> <br />
+          &#8377; <%=place.price%> /night
+        </p>
+      </div>
     </div>
-
-</body>
+  </a>
+  <% } %>
+</div>
